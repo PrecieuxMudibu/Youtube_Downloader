@@ -66,18 +66,27 @@ def download_video_local(url, quality_choice):
     # Configuration de yt-dlp
     ydl_opts = {
         'format': f'best[ext=mp4][height<={height_limit}]/best[ext=mp4]/best',
-        'outtmpl': f'{output_folder}/%(title)s.%(ext)s', 
+        'outtmpl': f'{output_folder}/%(title)s.%(ext)s',
         'noplaylist': True,
         'progress_hooks': [progress_hook],
         'quiet': True,
         'overwrites': True,
         
-        # --- AJOUT CRITIQUE POUR CONTOURNER LE BLOCAGE YOUTUBE ---
-        # 1. Forcer l'utilisation d'IPv4 (souvent nécessaire en cloud)
+        # --- SOLUTION DÉFINITIVE : COOKIES ---
+        # Indique à yt-dlp d'utiliser le fichier que vous avez téléchargé
+        'cookiefile': 'cookies.txt', 
+        
+        # On garde ces options au cas où, mais les cookies sont le plus important
         'force_ipv4': True,
-        # 2. Contourner les restrictions géographiques via un pays non bloqué (ex: DE)
-        'geo_bypass_country': 'DE', 
-        # --------------------------------------------------------
+        'geo_bypass_country': 'DE',
+        
+        # Optionnelle : Se faire passer pour un appareil mobile (Android)
+        # Cela aide parfois à contourner les vérifications "navigateur web"
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['android', 'web']
+            }
+        }
     }
 
     try:
