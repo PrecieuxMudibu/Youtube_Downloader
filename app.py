@@ -64,6 +64,7 @@ def download_video_local(url, quality_choice):
             progress_text.success("✅ Téléchargement terminé ! Traitement final en cours...")
 
     # Configuration de yt-dlp
+    # Configuration de yt-dlp (Version Anti-Bot Renforcée)
     ydl_opts = {
         'format': f'best[ext=mp4][height<={height_limit}]/best[ext=mp4]/best',
         'outtmpl': f'{output_folder}/%(title)s.%(ext)s',
@@ -72,21 +73,19 @@ def download_video_local(url, quality_choice):
         'quiet': True,
         'overwrites': True,
         
-        # --- SOLUTION DÉFINITIVE : COOKIES ---
-        # Indique à yt-dlp d'utiliser le fichier que vous avez téléchargé
+        # --- SOLUTION 1 : COOKIES ---
         'cookiefile': 'cookies.txt', 
-        
-        # On garde ces options au cas où, mais les cookies sont le plus important
-        'force_ipv4': True,
-        'geo_bypass_country': 'DE',
-        
-        # Optionnelle : Se faire passer pour un appareil mobile (Android)
-        # Cela aide parfois à contourner les vérifications "navigateur web"
+
+        # --- SOLUTION 2 : FORCER L'IDENTITÉ MOBILE (ANDROID) ---
+        # C'est souvent LA clé pour débloquer les serveurs cloud
         'extractor_args': {
             'youtube': {
-                'player_client': ['android', 'web']
+                'player_client': ['android', 'ios'], # On se fait passer pour un mobile
             }
-        }
+        },
+        
+        # --- SOLUTION 3 : SIMULER UN NAVIGATEUR RÉEL ---
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
     }
 
     try:
