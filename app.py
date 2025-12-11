@@ -66,11 +66,18 @@ def download_video_local(url, quality_choice):
     # Configuration de yt-dlp
     ydl_opts = {
         'format': f'best[ext=mp4][height<={height_limit}]/best[ext=mp4]/best',
-        'outtmpl': f'{output_folder}/%(title)s.%(ext)s',
+        'outtmpl': f'{output_folder}/%(title)s.%(ext)s', 
         'noplaylist': True,
-        'progress_hooks': [progress_hook], # On attache notre fonction ici
+        'progress_hooks': [progress_hook],
         'quiet': True,
         'overwrites': True,
+        
+        # --- AJOUT CRITIQUE POUR CONTOURNER LE BLOCAGE YOUTUBE ---
+        # 1. Forcer l'utilisation d'IPv4 (souvent nécessaire en cloud)
+        'force_ipv4': True,
+        # 2. Contourner les restrictions géographiques via un pays non bloqué (ex: DE)
+        'geo_bypass_country': 'DE', 
+        # --------------------------------------------------------
     }
 
     try:
