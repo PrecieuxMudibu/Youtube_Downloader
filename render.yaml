@@ -1,0 +1,10 @@
+services:
+- type: web
+  name: youtube-downloader-streamlit
+  env: python
+  buildCommand: "pip install -r requirements.txt"
+  startCommand: "streamlit run app.py --server.port $PORT --server.enableCORS false --server.enableXsrfProtection false"
+  port: 8501
+  envVars:
+  - key: PORT
+    value: 8501
